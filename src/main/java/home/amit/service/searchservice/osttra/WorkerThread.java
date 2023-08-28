@@ -7,64 +7,52 @@ Year :- 2023
 */
 
 
-
 import java.util.LinkedList;
 
-public class WorkerThread extends Thread{
+public class WorkerThread extends Thread {
 
-    private LinkedList<Runnable> takQueue= new LinkedList<>();
-
-
-
-    private boolean running=true;
+    private final LinkedList<Runnable> takQueue = new LinkedList<>();
+    private boolean running = true;
 
     @Override
-    public void run()
-    {
-        while (running)
-        {
+    public void run() {
+        while (running) {
             Runnable task;
-            synchronized (takQueue){
+            synchronized (takQueue) {
 
-                while(takQueue.isEmpty())
-                {
+                while (takQueue.isEmpty()) {
                     try {
 
                         takQueue.wait();
-                    }
-                    catch (InterruptedException e)
-                    {
+                    } catch (InterruptedException e) {
                         Thread.currentThread().interrupt();
                         return;
                     }
-
-
                 }
-                task=takQueue.poll();
-             }
+                task = takQueue.poll();
+            }
             task.run();
 
         }
     }
 
-    public void addTask(Runnable task)
-    {
-        synchronized (takQueue)
-        {
-
+    public void addTask(Runnable task) {
+        synchronized (takQueue) {
             takQueue.add(task);
             takQueue.notify();
         }
-        Thread t = new Thread(task);
-        t.start();
+
 
     }
 
-public void stopThread()
-{
-    running=false;
-    interrupt();
+    public void stopThread() {
+        running = false;
+        interrupt();
 
-}
+    }
 
+    @Override
+    public String toString() {
+        return "WorkerThread{} " + Thread.currentThread().getName();
+    }
 }

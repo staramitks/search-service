@@ -12,41 +12,36 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TestOsttra {
-    private  WorkerThread[] workers;
-    public TestOsttra(int numThreads)
-    {
-        workers=new WorkerThread[numThreads];
-        for (int i=0; i<numThreads ;i++)
-        {
-            workers[i]=new WorkerThread();
+    private final WorkerThread[] workers;
+
+    public TestOsttra(int numThreads) {
+        workers = new WorkerThread[numThreads];
+        for (int i = 0; i < numThreads; i++) {
+            workers[i] = new WorkerThread();
             workers[i].start();
         }
     }
 
-    public void submit(Runnable task)
-    {
-        for (WorkerThread worker: workers)
-        {
-            worker.addTask(task);
-        }
-    }
-
-
     public static void main(String[] args) {
 
-        List<Integer> mylist= new LinkedList<>();
-        TestOsttra testOsttra= new TestOsttra(5);
+        List<Integer> mylist = new LinkedList<>();
+        TestOsttra testOsttra = new TestOsttra(5);
 
-        for (int i=0;i<10;i++)
-        {
+        for (int i = 0; i < 10; i++) {
             mylist.add(i);
         }
 
-        for (int i=0; i<5; i++)
-        {
+        for (int i = 0; i < 5; i++) {
             testOsttra.submit(new NumberPrinter((LinkedList<Integer>) mylist));
         }
 
+    }
+
+    public void submit(Runnable task) {
+        int i=0;
+        for (WorkerThread worker : workers) {
+            worker.addTask(task);
+        }
     }
 
 }
