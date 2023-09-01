@@ -8,8 +8,7 @@ Year :- 2023
 
 //Implelement a Custom Thread Pool which will have 5 threads and it will take LinkedList and print numbers from LinkedList
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class TestOsttra {
     private final WorkerThread[] workers;
@@ -26,16 +25,32 @@ public class TestOsttra {
 
         List<Integer> mylist = new LinkedList<>();
         TestOsttra testOsttra = new TestOsttra(5);
+        LinkedList<UserAction> userActionList= new LinkedList<>();
+        UserAction user1= new UserAction("Sid","Action 1");
+        UserAction user2= new UserAction("Sid","Action 2");
+        UserAction user3= new UserAction("Sid","Action 3");
+        UserAction user4= new UserAction("Sid1","Action 1");
+        UserAction user5= new UserAction("Sid1","Action 2");
+        UserAction user6= new UserAction("Sid","Action 6");
+        UserAction user7= new UserAction("Sid","Action 7");
+        UserAction user8= new UserAction("Sid","Action 8");
+        UserAction user9= new UserAction("Sid","Action 9");
+        UserAction user10= new UserAction("Sid","Action 10");
+        userActionList.add(user1);
+        userActionList.add(user2);
+        userActionList.add(user3);
+        userActionList.add(user4);
+        userActionList.add(user5);
+        userActionList.add(user6);
+        userActionList.add(user7);
+        userActionList.add(user8);
+        userActionList.add(user9);
+        userActionList.add(user10);
 
-        for (int i = 0; i < 10; i++) {
-            mylist.add(i);
-        }
-
-        for (int i = 0; i < 5; i++) {
-            testOsttra.submit(new NumberPrinter((LinkedList<Integer>) mylist));
-        }
-
-    }
+       for (int i = 0; i < 5; i++) {
+            testOsttra.submit(new UserActionPrinter(userActionList));
+            }
+   }
 
     public void submit(Runnable task) {
         int i=0;
